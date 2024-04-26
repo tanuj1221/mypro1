@@ -1,0 +1,123 @@
+        <!-- Embed the heatmap -->
+        <div class="heatmap-container">{{ heatmap_html|safe }}</div>
+        
+        <!-- Embed the day distribution plot -->
+        <h2>Incidents by Day of the Week</h2>
+        <img src="data:image/png;base64,{{ day_distribution_img }}" />
+        
+        <!-- Similarly, add other visualizations -->
+        <h2>Incidents by Area</h2>
+        <img src="data:image/png;base64,{{ area_distribution_img }}" />
+        
+        <h2>Incidents by Time</h2>
+        <img src="data:image/png;base64,{{ time_distribution_img }}" />
+    
+        <h2>Incidents by Time Gap</h2>
+        <img src="data:image/png;base64,{{ time_intervals_distribution_img }}" />
+    
+        <form method="post" action="/myapp/">
+            {% csrf_token %}
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            
+            <label for="area">Area:</label>
+            <select id="area" name="area">
+                <!-- Dynamically generate options based on available areas in your dataset -->
+                {% for area in areas %}
+                <option value="{{ area }}">{{ area }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="time_interval">Time Interval:</label>
+            <select id="time_interval" name="time_interval">
+                <!-- Options for time intervals -->
+                <option value="00:00-02:59">00:00-02:59</option>
+                <option value="03:00-05:59">03:00-05:59</option>
+                <option value="06:00-08:59">06:00-08:59</option>
+                <option value="09:00-11:59">09:00-11:59</option>
+                <option value="12:00-14:59">12:00-14:59</option>
+                <option value="15:00-17:59">15:00-17:59</option>
+                <option value="18:00-20:59">18:00-20:59</option>
+                <option value="21:00-23:59">21:00-23:59</option>
+            </select>
+            
+            <button type="submit">Predict</button>
+        </form>
+    
+        {% if prediction_result %}
+        <div class="prediction-result">
+            <h3>Prediction Result:</h3>
+            <p>Estimated number of incidents: {{ prediction_result }}</p>
+        </div>
+        {% endif %}
+    
+        {% if heatmap_html %}
+        <h2>Predicted Incidents Heatmap</h2>
+        <div class="heatmap-container">{{ heatmap_html|safe }}</div>
+        {% endif %}
+        
+        <select id="timeSlotFilter">
+            <option value="All">All Time Slots</option>
+            {% for time_slot in interval_order %}
+            <option value="{{ time_slot }}">{{ time_slot }}</option>
+            {% endfor %}
+            <option value="All Day">All Day</option>
+        </select>
+        <select id="areaFilter">
+            <option value="All">All Areas</option>
+            {% for area in areas %}
+            <option value="{{ area }}">{{ area }}</option>
+            {% endfor %}
+        </select>
+        
+        
+        <script>
+            function filterTable() {
+                var selectedTimeSlot = document.getElementById('timeSlotFilter').value;
+                var selectedArea = document.getElementById('areaFilter').value;
+                var rows = document.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    var timeSlot = row.getAttribute('data-time-slot'); // Use data attributes
+                    var area = row.getAttribute('data-area'); // Use data attributes
+                    var matchTimeSlot = selectedTimeSlot === "All" || timeSlot === selectedTimeSlot;
+                    var matchArea = selectedArea === "All" || area === selectedArea;
+        
+                    if (matchTimeSlot && matchArea) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+        
+            document.getElementById('timeSlotFilter').addEventListener('change', filterTable);
+            document.getElementById('areaFilter').addEventListener('change', filterTable);
+        
+            // Initial filter to apply default view
+            filterTable();
+        </script>
+        
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Time Slot</th>
+                    <th>Prediction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in prediction_table %}
+                <tr data-time-slot="{{ row.Time_Slot }}" data-area="{{ row.Area }}">
+                    <td>{{ row.Date }}</td>
+                    <td>{{ row.Area }}</td>
+                    <td>{{ row.Time_Slot }}</td>
+                    <td>{{ row.Prediction }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        

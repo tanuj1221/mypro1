@@ -1,0 +1,433 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body, html {
+  width: 100%;
+  min-height: 100vh; /* This will make sure that the body covers at least the viewport height */
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Define CSS variables for easy theming and adjustments */
+:root {
+  --nav-bg-color: #333; /* Dark theme background */
+  --nav-text-color: #fff; /* Light text for contrast */
+  --nav-hover-bg-color: #444; /* Slightly lighter for hover state */
+  --nav-padding: 15px;
+  --nav-hover-transform: translateY(-3px); /* subtle lift effect */
+}
+
+/*=============== Navigation bar styles ==================*/
+.navigation {
+  background-color: var(--nav-bg-color);
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  font-family: 'Arial', sans-serif;
+  color: var(--nav-text-color);
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.5); /* stronger shadow for depth */
+  overflow: hidden; /* Hide elements during animation */
+  transform: translateX(-200px); /* Start off-screen */
+  animation: slideIn 0.5s forwards; /* Animate in */
+  z-index: 1000;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Nav Header styles */
+.nav-header {
+  font-weight: bold;
+  padding: 5px var(--nav-padding) 0px calc(var(--nav-padding) + 5px); /* adjusted padding */
+  border-bottom: 2px solid #555; /* slightly thicker border for more distinction */
+  background: linear-gradient(to right, #4f4f4f, #262626); /* subtle gradient */
+  color: #ddd; /* lighter text color for contrast */
+  text-transform: uppercase; /* modern look with uppercase text */
+  letter-spacing: 1px; /* increased letter-spacing for a more open feel */
+  display: flex; /* enables the use of flexbox properties */
+  align-items: center; /* centers items vertically */
+  justify-content: space-between; /* distributes space between children */
+}
+
+/* If you have a logo, you can include it like this */
+.nav-header-logo img{
+  height: 80px; /* adjust as needed */
+  width: auto; /* adjust as needed */
+  background-size: contain; /* ensure the logo fits */
+  background-repeat: no-repeat; /* prevent logo from repeating */
+}
+
+/* Optionally, if you want a hover effect on the header */
+.nav-header:hover {
+  background: linear-gradient(to right, #555, #2e2e2e); /* slightly darker on hover */
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  transition: transform 0.3s ease; /* Transition for the hover effect */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item i {
+  margin-right: 10px; 
+  }
+
+/*------------- Adding nav items animation------------- */
+.nav-item a {
+  text-decoration: none;
+  color: var(--nav-text-color);
+  padding: var(--nav-padding);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative; /* Needed for absolute positioning of the after element */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth background and transform transition */
+  overflow: hidden; /* Ensures the after element is clipped */
+}
+
+.nav-item a::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%; /* Start with no underline */
+  height: 2px; /* Thickness of the underline */
+  background-color: var(--nav-text-color); /* Use the text color for the underline */
+  transition: width 0.3s ease; /* Animate the width */
+}
+
+.nav-item a:hover::after {
+  width: 100%; /* Full width on hover */
+}
+
+.nav-item a:hover {
+  /* Apply the lift effect */
+  background-color: var(--nav-hover-bg-color);
+  transform: var(--nav-hover-transform);
+}
+/*=============== Ended ==================*/
+
+/* Icon styles using a popular icon library */
+.icon {
+  font-family: 'FontAwesome'; /* Assuming FontAwesome is used */
+  margin-right: 10px; /* consistent with other icon margin */
+  transition: transform 0.2s; /* Smooth transform transition for icon */
+}
+
+.icon:hover {
+  transform: scale(1.1); /* Slightly increase icon size on hover */
+}
+
+/* Example of how to use FontAwesome icons */
+.icon-dashboard:before {
+  content: "\f015"; /* FontAwesome icon content for 'dashboard' */
+}
+
+/* ...additional icon:before styles for other icons... */
+
+/* Update this class to use 'icon' as a general class for all icons */
+.nav-item .icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  text-align: center;
+  line-height: 20px; /* center the icon vertically */
+}
+
+/*========== Navbar end ==========*/
+
+/*================== Header =================== */
+.header {
+  background-color: #171b1f;
+  position: relative; /* Changed from relative to fixed for a sticky header */
+  top: 0;
+  left: 200px;
+  width: calc(100% - 200px);
+  padding: 10px 20px;
+  box-sizing: border-box;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* This will space out the logo, navigation, and CTA */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-title {
+    flex-grow: 1; /* Allows the title container to grow and fill space */
+    text-align: center; /* Centers the title text */
+    color: #ffffff; /* Sets the color of the title text */
+  }
+  
+  .header-title h1 {
+    margin: 0; /* Removes default margin from the h1 tag */
+    font-size: 1.5rem; /* Sets a suitable font size for the title */
+    font-weight: normal; /* Optional: Adjusts the font weight as needed */
+  }
+  
+.logo-container {
+  flex-shrink: 0; /* Prevents the logo from shrinking */
+}
+
+.header-logo {
+  height: 50px; /* Adjust the height as needed */
+}
+
+.header-cta {
+  margin-left: auto; /* Pushes the CTA to the right */
+}
+
+.cta-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover,
+.cta-button:focus {
+  background-color: #0056b3; /* Darken button on hover or focus */
+}
+
+/*============ Header section end ============ */
+/*=================== Dashboard Section ================= */
+.dashboard {
+  left: 200px; /* Adjust this value to match the width of your navigation bar */
+  position: relative;
+  width: calc(100% - 200px); /* Adjust this value to match the width of your navigation bar */
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Create two columns that each take up half the space */
+  grid-gap: 20px;
+  box-sizing: border-box;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0); /* Subtle gradient */
+    border: 1px solid #e6e6e6; /* Light border to define the edges on light backgrounds */
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Larger, softer shadow on hover */
+    transform: translateY(-5px); /* Slight lift effect on hover */
+  }
+
+  .card img {
+    max-width: 100%; /* Ensure the image is no wider than its container */
+    height: auto; /* Maintain the aspect ratio */
+    display: block; /* Remove any inline spacing */
+    margin: 0 auto; /* Center the image within the card */
+    border-radius: 10px;
+  }
+/* =========== Dashboard end ================ */
+
+/*=============== Prediction Section ============ */
+.new-section {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    left: 200px;
+    width: calc(100% - 200px);
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 998;
+    box-sizing: border-box;
+  }
+  
+  #pred-form {
+    display: flex;
+    flex-direction: column;
+  }
+  /* Input Form styles */
+  .inner-section {
+    padding: 20px; /* Add more padding for content inside sections */
+    margin: 20px 0; /* Increase vertical margin for spacing outside sections */
+    border-radius: 15px; /* More pronounced rounded corners for a modern look */
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Blur effect for the background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border: none; /* Remove border for a cleaner look */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space out form elements */
+  }
+  
+  #input-form {
+    /* Specific styles for the input form can go here, if needed */
+  }
+  
+  /* Additional styles for form elements to match the modern look */
+  .inner-section label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .inner-section input[type="date"]{
+    width: calc(100% - 20px); /* Adjust width taking padding into account */
+    padding: 10px; /* Same padding as in your CSS */
+    padding: 10px;
+    margin-bottom: 10px; /* Add space below each input */
+    border-radius: 8px;
+    border: 1px solid #ccc; /* Subtle border for inputs */
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px); /* Blur effect for the input backgrounds */
+  }
+
+
+  
+  .inner-section select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* Add space below each input */
+    border-radius: 8px;
+    border: 1px solid #ccc; /* Subtle border for inputs */
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px); /* Blur effect for the input backgrounds */
+  }
+  
+  .inner-section button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .inner-section button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Ensure labels and form elements align properly */
+  .inner-section form {
+    display: flex;
+    flex-direction: column;
+  }
+  /* Input form styles end */
+  
+  #table-display {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  /*  ------------ Table styles -------------- */
+
+/*  ------------ Table styles -------------- */
+
+table {
+    width: 100%; /* Full width of its container */
+    border-collapse: collapse; /* Collapse borders for a clean look */
+    table-layout: fixed; /* Helps to apply equal column widths */
+  }
+  
+ td {
+  width: 20%;
+    text-align: center; /* Align text to the center */
+    padding: 8px; /* Add padding for spacing */
+    border-bottom: 1px solid #ddd; /* Add a bottom border to each cell */
+  }
+  
+  thead {
+    background-color: #f2f2f2; /* Light grey background for the header row */
+  }
+  
+  tbody {
+    display: block; /* Allows the tbody to have a fixed height and overflow */
+    max-height: 160px; /* Set a fixed height, adjust as needed */
+    overflow-y: auto; /* Add vertical scrollbar to tbody */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+  }
+  
+  thead tr {
+    display: table; /* Required to keep the table row in the flow */
+    width: 100%; /* Full width of the table */
+    table-layout: fixed; /* Helps to apply equal column widths */
+  }
+  
+  th {
+    width: 20%;
+    position: sticky; /* Sticky position for the thead */
+    top: 0; /* Stick to the top of the table */
+    background-color: #f2f2f2; /* Ensure background color is behind text */
+    z-index: 10; /* Ensure the header is above the tbody content */
+    text-align: center;
+    padding-left: 20px;
+  }
+  
+  /* Optional: Style for the scrollbar */
+  tbody::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  tbody::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
+  
+  tbody::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  /* ======== Prediction Ended ========== */
+
+  .heatmap-section {
+    position: relative;
+    display: block;
+    left: 200px;
+    width: calc(100% - 200px);
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 998;
+    box-sizing: border-box;
+  }
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .navigation {
+      width: 100%; /* Full width */
+      height: auto; /* Adjust height as necessary */
+      position: static; /* Removes it from the fixed position */
+      display: none; /* This will hide the sidebar */
+  }
+
+  .header, .dashboard {
+      position: static; /* This resets the position */
+      left: 0; /* Resets the left property */
+      width: 100%; /* Full width */
+      padding: 10px 20px; /* Add back some padding if needed */
+  } 
+
+  .new-section {
+    left: 0;
+    width: 100%;
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+}
+
